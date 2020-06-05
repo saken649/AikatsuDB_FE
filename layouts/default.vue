@@ -26,7 +26,10 @@
     </v-navigation-drawer>
     <v-app-bar :clipped-left="clipped" fixed app>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-toolbar-title v-text="title" />
+      <!-- TODO: リンク用の無駄なスタイルが当たってるので外す -->
+      <nuxt-link to="/">
+        <v-toolbar-title v-text="title" />
+      </nuxt-link>
     </v-app-bar>
     <v-content>
       <v-container>
@@ -68,7 +71,7 @@ export default {
         {
           icon: 'mdi-chart-bubble',
           title: '楽曲',
-          to: '/inspire'
+          to: '/songs'
         },
         {
           icon: 'mdi-chart-bubble',

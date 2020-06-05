@@ -1,75 +1,147 @@
 <template>
-  <v-layout column justify-center align-center>
-    <v-flex xs12 sm8 md6>
-      <div class="text-center">
-        <logo />
-        <vuetify-logo />
-      </div>
-      <v-card>
-        <v-card-title class="headline">
-          Welcome to the Vuetify + Nuxt.js template
-        </v-card-title>
-        <v-card-text>
-          <p>
-            Vuetify is a progressive Material Design component framework for
-            Vue.js. It was designed to empower developers to create amazing
-            applications.
-          </p>
-          <p>
-            For more information on Vuetify, check out the
-            <a href="https://vuetifyjs.com" target="_blank"> documentation </a>.
-          </p>
-          <p>
-            If you have questions, please join the official
-            <a href="https://chat.vuetifyjs.com/" target="_blank" title="chat">
-              discord </a
-            >.
-          </p>
-          <p>
-            Find a bug? Report it on the github
-            <a
-              href="https://github.com/vuetifyjs/vuetify/issues"
-              target="_blank"
-              title="contribute"
-            >
-              issue board </a
-            >.
-          </p>
-          <p>
-            Thank you for developing with Vuetify and I look forward to bringing
-            more exciting features in the future.
-          </p>
-          <div class="text-xs-right">
-            <em><small>&mdash; John Leider</small></em>
-          </div>
-          <hr class="my-3" />
-          <a href="https://nuxtjs.org/" target="_blank">
-            Nuxt Documentation
-          </a>
-          <br />
-          <a href="https://github.com/nuxt/nuxt.js" target="_blank">
-            Nuxt GitHub
-          </a>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn color="primary" nuxt to="/inspire">
-            Continue
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-flex>
-  </v-layout>
+  <v-row align="center" justify="center" no-gutters>
+    <v-col
+      cols="12"
+      xs="12"
+      sm="10"
+      md="8"
+    >
+      <p class="text-center">はろー、ココちゃん？</p>
+
+      <v-form @submit="onSubmit">
+        <template v-if="isFreeWord">
+          <v-text-field
+            v-model="searchWord"
+            prepend-inner-icon="mdi-magnify"
+          ></v-text-field>
+        </template>
+        <template v-else>
+          <v-select
+            v-model="searchWord"
+            :items="selectBoxContents"
+            prepend-inner-icon="mdi-magnify"
+          ></v-select>
+        </template>
+
+        <v-radio-group v-model="selectedSearchType">
+          <v-radio
+            v-for="(searchType, index) in searchTypes"
+            :key="index"
+            :label="searchType.label"
+            :value="index"
+          ></v-radio>
+        </v-radio-group>
+
+        <v-btn type="submit">{{ getSubmitText }}</v-btn>
+      </v-form>
+
+    </v-col>
+  </v-row>
 </template>
 
-<script>
-import Logo from '~/components/Logo.vue'
-import VuetifyLogo from '~/components/VuetifyLogo.vue'
+<script lang="ts">
+import Vue from 'vue'
+import axios from '~/plugins/axios'
 
-export default {
-  components: {
-    Logo,
-    VuetifyLogo
-  }
+interface Data {
+  selectedSearchType: number
+  searchTypes: Array<SearchType>
+  searchWord: string
+  singers: Array<string>
+  characters: Array<string>
 }
+
+interface AsyncData {
+  singers: Array<string>
+  characters: Array<string>
+}
+
+interface SearchType {
+  label: string
+  isSelectBox: boolean
+  key: string | null,
+  prefix: string
+}
+
+enum SearchTypeEnum {
+  FreeWord,
+  Singer,
+  Character
+}
+
+const searchTypes: Array<SearchType> = [
+  {
+    label: 'フリーワード',
+    isSelectBox: false,
+    key: null,
+    prefix: ''
+  },
+  {
+    label: '歌唱担当',
+    isSelectBox: true,
+    key: 'singers',
+    prefix: 'さん'
+  },
+  {
+    label: 'キャラクター名',
+    isSelectBox: true,
+    key: 'characters',
+    prefix: 'ちゃん'
+  }
+]
+
+export default Vue.extend({
+  name: 'Index',
+  data(): Data {
+    return {
+      selectedSearchType: 0,
+      searchTypes,
+      searchWord: '',
+      singers: [],
+      characters: []
+    }
+  },
+  async asyncData(): Promise<AsyncData> {
+    const [s, c] = await Promise.all([
+      axios.get('singers_name_list'),
+      axios.get('characters_name_list')
+    ])
+    const singers = s.data
+    const characters = c.data
+    return { singers, characters }
+  },
+  computed: {
+    isFreeWord(): boolean {
+      return this._isFreeWord(this.selectedSearchType)
+    },
+    selectBoxContents(): Array<string> {
+      const key = this.searchTypes[this.selectedSearchType].key
+      if (key == null) return []
+      // @ts-ignore
+      return this[key]
+    },
+    getSubmitText(): string {
+      if (this._isFreeWord(this.selectedSearchType)) {
+        return 'について教えて？'
+      } else {
+        return `${
+          this.searchTypes[this.selectedSearchType].prefix
+        }の歌ってる曲を教えて？`
+      }
+    }
+  },
+  methods: {
+    _isFreeWord(searchType: SearchTypeEnum): boolean {
+      return searchType === SearchTypeEnum.FreeWord
+    },
+    onSubmit(e: Event): void {
+      e.preventDefault()
+      console.log(this.$data)
+      // TODO: ココろえました！を出す
+      // TODO: クエリで検索する！
+    }
+  }
+})
+
+// TODO: スタイル適当なので直す！！！！
 </script>
