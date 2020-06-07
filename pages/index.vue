@@ -40,108 +40,108 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import axios from '~/plugins/axios'
+  import Vue from 'vue'
+  import axios from '~/plugins/axios'
 
-interface Data {
-  selectedSearchType: number
-  searchTypes: Array<SearchType>
-  searchWord: string
-  singers: Array<string>
-  characters: Array<string>
-}
-
-interface AsyncData {
-  singers: Array<string>
-  characters: Array<string>
-}
-
-interface SearchType {
-  label: string
-  isSelectBox: boolean
-  key: string | null,
-  prefix: string
-}
-
-enum SearchTypeEnum {
-  FreeWord,
-  Singer,
-  Character
-}
-
-const searchTypes: Array<SearchType> = [
-  {
-    label: 'フリーワード',
-    isSelectBox: false,
-    key: null,
-    prefix: ''
-  },
-  {
-    label: '歌唱担当',
-    isSelectBox: true,
-    key: 'singers',
-    prefix: 'さん'
-  },
-  {
-    label: 'キャラクター名',
-    isSelectBox: true,
-    key: 'characters',
-    prefix: 'ちゃん'
+  interface Data {
+    selectedSearchType: number
+    searchTypes: Array<SearchType>
+    searchWord: string
+    singers: Array<string>
+    characters: Array<string>
   }
-]
 
-export default Vue.extend({
-  name: 'Index',
-  data(): Data {
-    return {
-      selectedSearchType: 0,
-      searchTypes,
-      searchWord: '',
-      singers: [],
-      characters: []
+  interface AsyncData {
+    singers: Array<string>
+    characters: Array<string>
+  }
+
+  interface SearchType {
+    label: string
+    isSelectBox: boolean
+    key: string | null,
+    prefix: string
+  }
+
+  enum SearchTypeEnum {
+    FreeWord,
+    Singer,
+    Character
+  }
+
+  const searchTypes: Array<SearchType> = [
+    {
+      label: 'フリーワード',
+      isSelectBox: false,
+      key: null,
+      prefix: ''
+    },
+    {
+      label: '歌唱担当',
+      isSelectBox: true,
+      key: 'singers',
+      prefix: 'さん'
+    },
+    {
+      label: 'キャラクター名',
+      isSelectBox: true,
+      key: 'characters',
+      prefix: 'ちゃん'
     }
-  },
-  async asyncData(): Promise<AsyncData> {
-    const [s, c] = await Promise.all([
-      axios.get('singers_name_list'),
-      axios.get('characters_name_list')
-    ])
-    const singers = s.data
-    const characters = c.data
-    return { singers, characters }
-  },
-  computed: {
-    isFreeWord(): boolean {
-      return this._isFreeWord(this.selectedSearchType)
+  ]
+
+  export default Vue.extend({
+    name: 'Index',
+    data(): Data {
+      return {
+        selectedSearchType: 0,
+        searchTypes,
+        searchWord: '',
+        singers: [],
+        characters: []
+      }
     },
-    selectBoxContents(): Array<string> {
-      const key = this.searchTypes[this.selectedSearchType].key
-      if (key == null) return []
-      // @ts-ignore
-      return this[key]
+    async asyncData(): Promise<AsyncData> {
+      const [s, c] = await Promise.all([
+        axios.get('singers_name_list'),
+        axios.get('characters_name_list')
+      ])
+      const singers = s.data
+      const characters = c.data
+      return { singers, characters }
     },
-    getSubmitText(): string {
-      if (this._isFreeWord(this.selectedSearchType)) {
-        return 'について教えて？'
-      } else {
-        return `${
-          this.searchTypes[this.selectedSearchType].prefix
-        }の歌ってる曲を教えて？`
+    computed: {
+      isFreeWord(): boolean {
+        return this._isFreeWord(this.selectedSearchType)
+      },
+      selectBoxContents(): Array<string> {
+        const key = this.searchTypes[this.selectedSearchType].key
+        if (key == null) return []
+        // @ts-ignore
+        return this[key]
+      },
+      getSubmitText(): string {
+        if (this._isFreeWord(this.selectedSearchType)) {
+          return 'について教えて？'
+        } else {
+          return `${
+            this.searchTypes[this.selectedSearchType].prefix
+          }の歌ってる曲を教えて？`
+        }
+      }
+    },
+    methods: {
+      _isFreeWord(searchType: SearchTypeEnum): boolean {
+        return searchType === SearchTypeEnum.FreeWord
+      },
+      onSubmit(e: Event): void {
+        e.preventDefault()
+        console.log(this.$data)
+        // TODO: ココろえました！を出す
+        // TODO: クエリで検索する！
       }
     }
-  },
-  methods: {
-    _isFreeWord(searchType: SearchTypeEnum): boolean {
-      return searchType === SearchTypeEnum.FreeWord
-    },
-    onSubmit(e: Event): void {
-      e.preventDefault()
-      console.log(this.$data)
-      // TODO: ココろえました！を出す
-      // TODO: クエリで検索する！
-    }
-  }
-})
+  })
 
-// TODO: スタイル適当なので直す！！！！
+  // TODO: スタイル適当なので直す！！！！
 </script>

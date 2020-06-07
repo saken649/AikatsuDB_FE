@@ -19,21 +19,21 @@
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title v-text="item.title" />
+            <v-list-item-title v-text="item.title"/>
           </v-list-item-content>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
     <v-app-bar :clipped-left="clipped" fixed app>
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer"/>
       <!-- TODO: リンク用の無駄なスタイルが当たってるので外す -->
       <nuxt-link to="/">
-        <v-toolbar-title v-text="title" />
+        <v-toolbar-title v-text="title"/>
       </nuxt-link>
     </v-app-bar>
     <v-content>
       <v-container>
-        <nuxt />
+        <nuxt/>
       </v-container>
     </v-content>
     <v-navigation-drawer v-model="rightDrawer" :right="right" temporary fixed>
@@ -55,40 +55,40 @@
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      clipped: false,
-      drawer: false,
-      fixed: false,
-      items: [
-        {
-          icon: 'mdi-apps',
-          title: 'トップ',
-          to: '/'
-        },
-        // TODO: アイコン適宜変える
-        {
-          icon: 'mdi-chart-bubble',
-          title: '楽曲',
-          to: '/songs'
-        },
-        {
-          icon: 'mdi-chart-bubble',
-          title: '歌唱担当',
-          to: '/inspire'
-        },
-        {
-          icon: 'mdi-chart-bubble',
-          title: 'キャラクター',
-          to: '/inspire'
-        },
-      ],
-      miniVariant: false,
-      right: false,
-      rightDrawer: false,
-      title: 'AikatsuDB'
+  export default {
+    data() {
+      return {
+        clipped: false,
+        drawer: false,
+        fixed: false,
+        items: [
+          {
+            icon: 'mdi-apps',
+            title: 'トップ',
+            to: '/'
+          },
+          // TODO: アイコン適宜変える
+          {
+            icon: 'mdi-chart-bubble',
+            title: '楽曲',
+            to: '/songs'
+          },
+          {
+            icon: 'mdi-chart-bubble',
+            title: '歌唱担当',
+            to: '/inspire'
+          },
+          {
+            icon: 'mdi-chart-bubble',
+            title: 'キャラクター',
+            to: '/inspire'
+          },
+        ],
+        miniVariant: false,
+        right: false,
+        rightDrawer: false,
+        title: 'AikatsuDB'
+      }
     }
   }
-}
 </script>
