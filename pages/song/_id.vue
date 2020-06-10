@@ -51,15 +51,17 @@
       <section class="mb-4">
         <h2 class="subtitle-1">収録アルバム</h2>
         <v-card v-for="album in song.albums" class="mx-auto" outlined>
-          <v-list-item two-line>
-            <v-list-item-avatar tile>
-              <v-img :src="album.image_path"></v-img>
-            </v-list-item-avatar>
-            <v-list-item-content>
-              <v-list-item-title class="mb-1">{{ album.title }}</v-list-item-title>
-              <v-list-item-subtitle>{{ getTrackText(album) }}</v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
+          <nuxt-link :to="getAlbumLink(album.id)">
+            <v-list-item two-line>
+              <v-list-item-avatar tile>
+                <v-img :src="album.image_path"></v-img>
+              </v-list-item-avatar>
+              <v-list-item-content>
+                <v-list-item-title class="mb-1">{{ album.title }}</v-list-item-title>
+                <v-list-item-subtitle>{{ getTrackText(album) }}</v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+          </nuxt-link>
         </v-card>
       </section>
 
@@ -158,6 +160,9 @@
       },
       getLink(songId: string): string {
         return `/song/${songId}`
+      },
+      getAlbumLink(albumId: string): string {
+        return `/album/${albumId}`
       }
     }
   })
