@@ -1,10 +1,8 @@
-import { MomentTimezone } from 'moment-timezone'
-
 interface Album {
   id: string
   title: string
   sub_title: string
-  sold_date: MomentTimezone
+  sold_date: string
   image_path: string
   disc_number: number
   disc_total: number
@@ -30,7 +28,7 @@ interface AlbumDetail {
   album_id: string
   title: string
   sub_title: string | null
-  sold_date: MomentTimezone
+  sold_date: string
   image_path: string
   total_disc: number
   songs: AlbumSongs
