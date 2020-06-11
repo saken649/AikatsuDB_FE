@@ -11,13 +11,13 @@
       <v-form @submit="onSubmit">
         <template v-if="isFreeWord">
           <v-text-field
-            v-model="searchWord"
+            v-model="keyword"
             prepend-inner-icon="mdi-magnify"
           ></v-text-field>
         </template>
         <template v-else>
           <v-select
-            v-model="searchWord"
+            v-model="keyword"
             :items="selectBoxContents"
             prepend-inner-icon="mdi-magnify"
           ></v-select>
@@ -46,7 +46,7 @@
   interface Data {
     selectedSearchType: number
     searchTypes: Array<SearchType>
-    searchWord: string
+    keyword: string
     singers: Array<string>
     characters: Array<string>
   }
@@ -96,7 +96,7 @@
       return {
         selectedSearchType: 0,
         searchTypes,
-        searchWord: '',
+        keyword: '',
         singers: [],
         characters: []
       }
@@ -136,9 +136,9 @@
       },
       onSubmit(e: Event): void {
         e.preventDefault()
-        console.log(this.$data)
         // TODO: ココろえました！を出す
         // TODO: クエリで検索する！
+        this.$router.push({ path: 'songs', query: { keyword: this.$data.keyword } })
       }
     }
   })
