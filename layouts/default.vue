@@ -69,17 +69,17 @@
           },
           // TODO: アイコン適宜変える
           {
-            icon: 'mdi-chart-bubble',
-            title: '楽曲',
+            icon: 'mdi-playlist-music',
+            title: '楽曲一覧',
             to: '/songs'
           },
           {
-            icon: 'mdi-chart-bubble',
+            icon: 'mdi-microphone-variant',
             title: '歌唱担当',
-            to: '/inspire'
+            to: '/singers'
           },
           {
-            icon: 'mdi-chart-bubble',
+            icon: 'mdi-ribbon',
             title: 'キャラクター',
             to: '/inspire'
           },
