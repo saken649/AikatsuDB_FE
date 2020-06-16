@@ -79,10 +79,15 @@
             to: '/singers'
           },
           {
-            icon: 'mdi-ribbon',
-            title: 'キャラクター',
-            to: '/inspire'
+            icon: 'mdi-account-music',
+            title: 'クリエイター一覧',
+            to: '/creators'
           },
+          // {
+          //   icon: 'mdi-ribbon',
+          //   title: 'キャラクター',
+          //   to: '/inspire'
+          // },
         ],
         miniVariant: false,
         right: false,

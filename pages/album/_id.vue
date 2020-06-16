@@ -30,7 +30,10 @@
           <v-card v-for="song in per_disc.songs" class="mx-auto" outlined>
             <nuxt-link :to="getLink(song.song_id)">
               <v-list-item two-line>
-                <v-list-item-avatar>{{ song.track_number }}</v-list-item-avatar>
+                <!-- TODO: 一旦 indigo 固定、出来ればアイカツの 4 色を交互に -->
+                <v-list-item-avatar color="indigo" size="36">
+                  <span class="white--text">{{ song.track_number }}</span>
+                </v-list-item-avatar>
                 <v-list-item-content>
                   <v-list-item-title class="mb-1">{{ song.title }} {{ song.sub_title }}</v-list-item-title>
                   <v-list-item-subtitle>{{ song.singer }}</v-list-item-subtitle>

@@ -1,6 +1,7 @@
 interface SingerAbout {
   singer_io: string
   name: string
+  name_kana: string
   is_current: boolean
 }
 

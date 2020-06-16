@@ -13,9 +13,10 @@
           <h2 class="subtitle-1 mt-4">{{ per_group.group_name }}</h2>
           <v-card v-for="singer in per_group.singers" class="mx-auto" outlined>
             <nuxt-link :to="getLink(singer.singer_id)">
-              <v-list-item>
+              <v-list-item two-line>
                 <v-list-item-content>
                   <v-list-item-title class="mb-1">{{ singer.name }}</v-list-item-title>
+                  <v-list-item-subtitle>{{ singer.name_kana }}</v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
             </nuxt-link>
